@@ -12,5 +12,54 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "part_a_sql.html#introduction",
+    "href": "part_a_sql.html#introduction",
+    "title": "Part A – SQL Analysis",
+    "section": "Introduction",
+    "text": "Introduction\nThis first part demonstrates the use of SQL to query a SQLite database. The results are presented using formatted and paginated tables.\n\n\n## Load necessary libraries\n\nlibrary(DBI)\n\nWarning: package 'DBI' was built under R version 4.5.2\n\nlibrary(RSQLite)\n\nWarning: package 'RSQLite' was built under R version 4.5.2\n\nlibrary(dplyr)\n\nWarning: package 'dplyr' was built under R version 4.5.2\n\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(DT)\n\nWarning: package 'DT' was built under R version 4.5.2\n\n## Connect to the SQLite database\ncon &lt;- dbConnect(\n  SQLite(),\n  \"virtual_production.db\"\n)\n## Check tables exist and we are connected to the DB\n\ndbListTables(con)\n\n [1] \"Assets\"           \"Clients\"          \"CrewMembers\"      \"Environments\"    \n [5] \"Equipment\"        \"ProductionCrew\"   \"Productions\"      \"SessionEquipment\"\n [9] \"ShootingSessions\" \"VCamTakes\""
+  },
+  {
+    "objectID": "part_a_sql.html#sql-query",
+    "href": "part_a_sql.html#sql-query",
+    "title": "Part A – SQL Analysis",
+    "section": "SQL Query",
+    "text": "SQL Query\n\nList the total budget allocated for productions in each country\nalong with the count of projects per country\nsorted by total budget (descending)\n\n\nquery_budget_country &lt;- \"\nSELECT \n  c.Country AS Country,\n  COUNT(p.ProductionID) AS Number_of_Productions,\n  SUM(p.Budget) AS Total_Budget\nFROM Productions p\nJOIN Clients c\n  ON p.ClientID = c.ClientID\nGROUP BY c.Country\nORDER BY Total_Budget DESC\n\"\n\nbudget_country_df &lt;- dbGetQuery(con, query_budget_country)\n\n## Display Results as a Paginated Table\n\ndatatable(\n  budget_country_df,\n  options = list(\n    pageLength = 8,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)"
+  },
+  {
+    "objectID": "part_a_sql.html#explanation",
+    "href": "part_a_sql.html#explanation",
+    "title": "Part A – SQL Analysis",
+    "section": "Explanation",
+    "text": "Explanation\nThis query joins the Productions and Clients tables to aggregate production budgets by country. The total budget and number of productions are calculated using SUM and COUNT, and the results are sorted in descending order of total budget to highlight countries with the highest investment in virtual production."
+  },
+  {
+    "objectID": "part_a_sql.html#sql-queries",
+    "href": "part_a_sql.html#sql-queries",
+    "title": "Part A – SQL Analysis",
+    "section": "SQL Queries",
+    "text": "SQL Queries\n\nList the total budget allocated for productions in each country along with the count of projects per country sorted by total budget (descending)\n\n\nquery_budget_country &lt;- \"\nSELECT \n  c.Country AS Country,\n  COUNT(p.ProductionID) AS Number_of_Productions,\n  SUM(p.Budget) AS Total_Budget\nFROM Productions p\nJOIN Clients c\n  ON p.ClientID = c.ClientID\nGROUP BY c.Country\nORDER BY Total_Budget DESC\n\"\n\nbudget_country_df &lt;- dbGetQuery(con, query_budget_country)\n\n## Display Results as a Paginated Table\n\ndatatable(\n  budget_country_df,\n  options = list(\n    pageLength = 8,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)"
+  },
+  {
+    "objectID": "part_a_sql.html#explanation-1st-query",
+    "href": "part_a_sql.html#explanation-1st-query",
+    "title": "Part A – SQL Analysis",
+    "section": "Explanation 1st query",
+    "text": "Explanation 1st query\nThis query joins the Productions and Clients tables to aggregate production budgets by country. The total budget and number of productions are calculated using SUM and COUNT, and the results are sorted in descending order of total budget to highlight countries with the highest investment in virtual production.\n\nquery_avg_dev_time &lt;- \"\nSELECT\n  AssetCount,\n  AVG(DevelopmentDays) AS Avg_Development_Days\nFROM (\n  SELECT\n    p.ProductionID,\n    JULIANDAY(p.EndDate) - JULIANDAY(p.StartDate) AS DevelopmentDays,\n    COUNT(a.AssetID) AS AssetCount\n  FROM Productions p\n  LEFT JOIN Environments e\n    ON p.ProductionID = e.ProductionID\n  LEFT JOIN Assets a\n    ON e.EnvironmentID = a.EnvironmentID\n  GROUP BY p.ProductionID\n)\nGROUP BY AssetCount\nORDER BY AssetCount\n\"\n\navg_dev_time_df &lt;- dbGetQuery(con, query_avg_dev_time)\n\n## Display as a Paginated Table\n\n\ndatatable(\n  avg_dev_time_df,\n  options = list(\n    pageLength = 8,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)"
+  },
+  {
+    "objectID": "part_a_sql.html#explanation-2nd-query",
+    "href": "part_a_sql.html#explanation-2nd-query",
+    "title": "Part A – SQL Analysis",
+    "section": "Explanation 2nd query",
+    "text": "Explanation 2nd query\nThis query calculates the development duration for each production by subtracting the start date from the end date using SQLite’s JULIANDAY function. A subquery is used to count the number of assets associated with each production. The outer query then groups productions by asset count and computes the average development time, highlighting how asset volume relates to production duration.\n\nquery_top_crew &lt;- \"\nSELECT\n  cm.Name AS Crew_Member,\n  COUNT(p.ProductionID) AS Successful_Productions\nFROM CrewMembers cm\nJOIN ProductionCrew pc\n  ON cm.CrewID = pc.CrewID\nJOIN Productions p\n  ON pc.ProductionID = p.ProductionID\nWHERE p.Status IN ('Post-production', 'Completed')\nGROUP BY cm.CrewID, cm.Name\nORDER BY Successful_Productions DESC\nLIMIT 3\n\"\n\ntop_crew_df &lt;- dbGetQuery(con, query_top_crew)\n\n## Display the Results\n\ndatatable(\n  top_crew_df,\n  options = list(\n    pageLength = 3,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)"
+  },
+  {
+    "objectID": "part_a_sql.html#explanation-3rd-query",
+    "href": "part_a_sql.html#explanation-3rd-query",
+    "title": "Part A – SQL Analysis",
+    "section": "Explanation 3rd query",
+    "text": "Explanation 3rd query\nThis query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of *Post-production* or *Completed*. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors."
   }
 ]

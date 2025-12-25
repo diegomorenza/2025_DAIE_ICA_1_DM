@@ -1,3 +1,149 @@
 ---
-title: "part_a_sql"
+title: "Part A – SQL Analysis"
 ---
+
+------------------------------------------------------------------------
+
+# Introduction
+
+This first part demonstrates the use of SQL to query a SQLite database with three different core SQL queries. The results are displayed using formatted and paginated tables.
+
+------------------------------------------------------------------------
+
+```{r}
+## Load the necessary libraries
+
+library(DBI)
+library(RSQLite)
+library(dplyr)
+library(DT)
+
+## Connect to the SQLite database
+con <- dbConnect(
+  SQLite(),
+  "virtual_production.db"
+)
+## Check tables exist and we are connected to the DB
+
+dbListTables(con)
+```
+
+# SQL Queries
+
+## 1st query
+
+List the total budget allocated for productions in each country along with the count of projects per country sorted by total budget (descending)
+
+```{r}
+query_budget_country <- "
+SELECT 
+  c.Country AS Country,
+  COUNT(p.ProductionID) AS Number_of_Productions,
+  SUM(p.Budget) AS Total_Budget
+FROM Productions p
+JOIN Clients c
+  ON p.ClientID = c.ClientID
+GROUP BY c.Country
+ORDER BY Total_Budget DESC
+"
+
+budget_country_df <- dbGetQuery(con, query_budget_country)
+
+## Display Results as a Paginated Table
+
+datatable(
+  budget_country_df,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE
+  ),
+  rownames = FALSE
+)
+```
+
+### **Explanation 1st query**
+
+This query joins the `Productions` and `Clients` tables to aggregate production budgets by country. The total budget and number of productions are calculated using `SUM` and `COUNT`, and the results are sorted in descending order of total budget to highlight countries with the highest investment in virtual production.
+
+## 2nd query
+
+Next is the query that lists the average development time for productions, categorized by the number of assets
+
+```{r}
+query_avg_dev_time <- "
+SELECT
+  AssetCount,
+  AVG(DevelopmentDays) AS Avg_Development_Days
+FROM (
+  SELECT
+    p.ProductionID,
+    JULIANDAY(p.EndDate) - JULIANDAY(p.StartDate) AS DevelopmentDays,
+    COUNT(a.AssetID) AS AssetCount
+  FROM Productions p
+  LEFT JOIN Environments e
+    ON p.ProductionID = e.ProductionID
+  LEFT JOIN Assets a
+    ON e.EnvironmentID = a.EnvironmentID
+  GROUP BY p.ProductionID
+)
+GROUP BY AssetCount
+ORDER BY AssetCount
+"
+
+avg_dev_time_df <- dbGetQuery(con, query_avg_dev_time)
+
+## Display as a Paginated Table
+
+
+datatable(
+  avg_dev_time_df,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE
+  ),
+  rownames = FALSE
+)
+```
+
+### **Explanation 2nd query**
+
+This query calculates the development duration for each production by subtracting the start date from the end date using SQLite’s `JULIANDAY` function. A subquery is used to count the number of assets associated with each production. The outer query then groups productions by asset count and computes the average development time, highlighting how asset volume relates to production duration.
+
+## 3rd query
+
+Final 3rd query lists the top three crew members based on the number of successful productions they’ve been involved in.
+
+```{r}
+query_top_crew <- "
+SELECT
+  cm.Name AS Crew_Member,
+  COUNT(p.ProductionID) AS Successful_Productions
+FROM CrewMembers cm
+JOIN ProductionCrew pc
+  ON cm.CrewID = pc.CrewID
+JOIN Productions p
+  ON pc.ProductionID = p.ProductionID
+WHERE p.Status IN ('Post-production', 'Completed')
+GROUP BY cm.CrewID, cm.Name
+ORDER BY Successful_Productions DESC
+LIMIT 3
+"
+
+top_crew_df <- dbGetQuery(con, query_top_crew)
+
+## Display the Results
+
+datatable(
+  top_crew_df,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE
+  ),
+  rownames = FALSE
+)
+
+```
+
+### **Explanation 3rd query**
+
+This query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of Post-production or Completed. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors.

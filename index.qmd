@@ -1,0 +1,11 @@
+---
+title: "2025_DAIE_ICA_1"
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+```{r}
+1 + 1
+```

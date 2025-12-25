@@ -1,5 +1,5 @@
 ---
-title: "2025_DAIE_ICA_1"
+title: "2025 DAIE ICA 1"
 ---
 
 This is a Quarto website.

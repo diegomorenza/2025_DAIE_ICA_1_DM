@@ -177,10 +177,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#sql-queries" id="toc-sql-queries" class="nav-link" data-scroll-target="#sql-queries">SQL Queries</a></li>
+  <li><a href="#sql-queries" id="toc-sql-queries" class="nav-link" data-scroll-target="#sql-queries">SQL Queries</a>
+  <ul class="collapse">
+  <li><a href="#st-core-query" id="toc-st-core-query" class="nav-link" data-scroll-target="#st-core-query">1st core query</a>
+  <ul class="collapse">
   <li><a href="#explanation-1st-query" id="toc-explanation-1st-query" class="nav-link" data-scroll-target="#explanation-1st-query"><strong>Explanation 1st query</strong></a></li>
+  </ul></li>
+  <li><a href="#nd-core-query" id="toc-nd-core-query" class="nav-link" data-scroll-target="#nd-core-query">2nd core query</a>
+  <ul class="collapse">
   <li><a href="#explanation-2nd-query" id="toc-explanation-2nd-query" class="nav-link" data-scroll-target="#explanation-2nd-query"><strong>Explanation 2nd query</strong></a></li>
+  </ul></li>
+  <li><a href="#rd-core-query" id="toc-rd-core-query" class="nav-link" data-scroll-target="#rd-core-query">3rd core query</a>
+  <ul class="collapse">
   <li><a href="#explanation-3rd-query" id="toc-explanation-3rd-query" class="nav-link" data-scroll-target="#explanation-3rd-query"><strong>Explanation 3rd query</strong></a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sql-concepts" id="toc-sql-concepts" class="nav-link" data-scroll-target="#sql-concepts">SQL Concepts</a>
+  <ul class="collapse">
+  <li><a href="#st-concept" id="toc-st-concept" class="nav-link" data-scroll-target="#st-concept">1st concept</a>
+  <ul class="collapse">
+  <li><a href="#example-scenario" id="toc-example-scenario" class="nav-link" data-scroll-target="#example-scenario">Example scenario</a></li>
+  <li><a href="#explanation-1st-concept" id="toc-explanation-1st-concept" class="nav-link" data-scroll-target="#explanation-1st-concept"><strong>Explanation 1st concept</strong></a></li>
+  </ul></li>
+  <li><a href="#nd-concept" id="toc-nd-concept" class="nav-link" data-scroll-target="#nd-concept">2nd concept</a>
+  <ul class="collapse">
+  <li><a href="#example-scenario-1" id="toc-example-scenario-1" class="nav-link" data-scroll-target="#example-scenario-1">Example scenario</a></li>
+  <li><a href="#explanation-2nd-concept" id="toc-explanation-2nd-concept" class="nav-link" data-scroll-target="#explanation-2nd-concept"><strong>Explanation 2nd concept</strong></a></li>
+  </ul></li>
+  <li><a href="#rd-concept" id="toc-rd-concept" class="nav-link" data-scroll-target="#rd-concept">3rd concept</a>
+  <ul class="collapse">
+  <li><a href="#example-scenario-2" id="toc-example-scenario-2" class="nav-link" data-scroll-target="#example-scenario-2">Example scenario</a></li>
+  <li><a href="#explanation-3rd-concept" id="toc-explanation-3rd-concept" class="nav-link" data-scroll-target="#explanation-3rd-concept"><strong>Explanation 3rd concept</strong></a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -207,12 +236,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <hr>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This first part demonstrates the use of SQL to query a SQLite database. The results are presented using formatted and paginated tables.</p>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>This first part demonstrates the use of SQL to query a SQLite database with three different core SQL queries. The results are displayed using formatted and paginated tables.</p>
 <hr>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load necessary libraries</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the necessary libraries</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -259,11 +288,11 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </section>
-<section id="sql-queries" class="level2">
-<h2 class="anchored" data-anchor-id="sql-queries">SQL Queries</h2>
-<blockquote class="blockquote">
+<section id="sql-queries" class="level1">
+<h1>SQL Queries</h1>
+<section id="st-core-query" class="level2">
+<h2 class="anchored" data-anchor-id="st-core-query">1st core query</h2>
 <p>List the total budget allocated for productions in each country along with the count of projects per country sorted by total budget (descending)</p>
-</blockquote>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>query_budget_country <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT </span></span>
@@ -284,20 +313,24 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(</span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  budget_country_df,</span>
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">8</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span></span>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-1af69fe4176460fc4c09" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1af69fe4176460fc4c09">{"x":{"filter":"none","vertical":false,"data":[["Germany","UK","Japan"],[2,2,2],[950000,880000,770000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>Number_of_Productions<\/th>\n      <th>Total_Budget<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"Country","targets":0},{"name":"Number_of_Productions","targets":1},{"name":"Total_Budget","targets":2}],"order":[],"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4df9fefea74a0cfcee24" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4df9fefea74a0cfcee24">{"x":{"filter":"none","vertical":false,"data":[["Germany","UK","Japan"],[2,2,2],[950000,880000,770000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Country<\/th>\n      <th>Number_of_Productions<\/th>\n      <th>Total_Budget<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"Country","targets":0},{"name":"Number_of_Productions","targets":1},{"name":"Total_Budget","targets":2}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
-</section>
-<section id="explanation-1st-query" class="level2">
-<h2 class="anchored" data-anchor-id="explanation-1st-query"><strong>Explanation 1st query</strong></h2>
+<section id="explanation-1st-query" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-1st-query"><strong>Explanation 1st query</strong></h3>
 <p>This query joins the <code>Productions</code> and <code>Clients</code> tables to aggregate production budgets by country. The total budget and number of productions are calculated using <code>SUM</code> and <code>COUNT</code>, and the results are sorted in descending order of total budget to highlight countries with the highest investment in virtual production.</p>
+</section>
+</section>
+<section id="nd-core-query" class="level2">
+<h2 class="anchored" data-anchor-id="nd-core-query">2nd core query</h2>
+<p>Next is the query that lists the average development time for productions, categorized by the number of assets</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>query_avg_dev_time <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
@@ -327,20 +360,24 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(</span>
 <span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  avg_dev_time_df,</span>
 <span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">8</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
 <span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span></span>
 <span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-acc1046e457d2ac1c232" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-acc1046e457d2ac1c232">{"x":{"filter":"none","vertical":false,"data":[[4,5,7,8,9],[184,131,193,139,147]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>AssetCount<\/th>\n      <th>Avg_Development_Days<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":[0,1]},{"name":"AssetCount","targets":0},{"name":"Avg_Development_Days","targets":1}],"order":[],"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-919b9f551499f3975017" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-919b9f551499f3975017">{"x":{"filter":"none","vertical":false,"data":[[4,5,7,8,9],[184,131,193,139,147]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>AssetCount<\/th>\n      <th>Avg_Development_Days<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":[0,1]},{"name":"AssetCount","targets":0},{"name":"Avg_Development_Days","targets":1}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
-</section>
-<section id="explanation-2nd-query" class="level2">
-<h2 class="anchored" data-anchor-id="explanation-2nd-query"><strong>Explanation 2nd query</strong></h2>
+<section id="explanation-2nd-query" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-2nd-query"><strong>Explanation 2nd query</strong></h3>
 <p>This query calculates the development duration for each production by subtracting the start date from the end date using SQLite’s <code>JULIANDAY</code> function. A subquery is used to count the number of assets associated with each production. The outer query then groups productions by asset count and computes the average development time, highlighting how asset volume relates to production duration.</p>
+</section>
+</section>
+<section id="rd-core-query" class="level2">
+<h2 class="anchored" data-anchor-id="rd-core-query">3rd core query</h2>
+<p>Final 3rd query lists the top three crew members based on the number of successful productions they’ve been involved in.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>query_top_crew <span class="ot">&lt;-</span> <span class="st">"</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
@@ -364,22 +401,146 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(</span>
 <span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  top_crew_df,</span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">3</span>,</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
 <span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
 <span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span></span>
 <span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-5579a8a5f79a7061bbec" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-5579a8a5f79a7061bbec">{"x":{"filter":"none","vertical":false,"data":[["Reese A","Casey R","Jordan G"],[3,2,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Crew_Member<\/th>\n      <th>Successful_Productions<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":3,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":1},{"name":"Crew_Member","targets":0},{"name":"Successful_Productions","targets":1}],"order":[],"orderClasses":false,"lengthMenu":[3,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-0bf4797f4d3d471923dd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0bf4797f4d3d471923dd">{"x":{"filter":"none","vertical":false,"data":[["Reese A","Casey R","Jordan G"],[3,2,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Crew_Member<\/th>\n      <th>Successful_Productions<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":1},{"name":"Crew_Member","targets":0},{"name":"Successful_Productions","targets":1}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<section id="explanation-3rd-query" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-3rd-query"><strong>Explanation 3rd query</strong></h3>
+<p>This query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of Post-production or Completed. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors.</p>
+</section>
+</section>
+</section>
+<section id="sql-concepts" class="level1">
+<h1>SQL Concepts</h1>
+<section id="st-concept" class="level2">
+<h2 class="anchored" data-anchor-id="st-concept">1st concept</h2>
+<p>Filter using <code>LIKE</code> combine conditions with <code>OR</code></p>
+<section id="example-scenario" class="level3">
+<h3 class="anchored" data-anchor-id="example-scenario">Example scenario</h3>
+<p>List crew members whose role contains <em>Unreal</em> <strong>or</strong> <em>Camera</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>query_like_or <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Name,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Role,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ExperienceYears</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM CrewMembers</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE Role LIKE '%Unreal%'</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">   OR Role LIKE '%Camera%'</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>like_or_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, query_like_or)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="do">### Display the Table</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  like_or_df,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4fc9a0b56037e694e38e" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4fc9a0b56037e694e38e">{"x":{"filter":"none","vertical":false,"data":[["Jordan G","Riley T","Jamie F","Dakota N","Reese A"],["Unreal Operator","Unreal Operator","Unreal Operator","Unreal Operator","Unreal Operator"],[15,5,15,1,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Name<\/th>\n      <th>Role<\/th>\n      <th>ExperienceYears<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":2},{"name":"Name","targets":0},{"name":"Role","targets":1},{"name":"ExperienceYears","targets":2}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
-<section id="explanation-3rd-query" class="level2">
-<h2 class="anchored" data-anchor-id="explanation-3rd-query"><strong>Explanation 3rd query</strong></h2>
-<p>This query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of *Post-production* or *Completed*. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors.</p>
+<section id="explanation-1st-concept" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-1st-concept"><strong>Explanation 1st concept</strong></h3>
+<p>This query demonstrates the use of the <code>LIKE</code> operator combined with the <code>OR</code> condition to filter textual data. Crew members are selected if their role contains either the term <em>Unreal</em> or <em>Camera</em>, allowing flexible pattern matching across multiple criteria.</p>
+</section>
+</section>
+<section id="nd-concept" class="level2">
+<h2 class="anchored" data-anchor-id="nd-concept">2nd concept</h2>
+<p>Filter using <code>SELECT DISTINCT</code> with <code>ORDER BY</code></p>
+<section id="example-scenario-1" class="level3">
+<h3 class="anchored" data-anchor-id="example-scenario-1">Example scenario</h3>
+<p>List distinct production genres in alphabetical order</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>query_distinct_order <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT DISTINCT</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Genre</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">FROM Productions</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY Genre ASC</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>distinct_genres_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, query_distinct_order)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="do">### Display Table</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  distinct_genres_df,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4deef5f2e6d298f0acd6" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4deef5f2e6d298f0acd6">{"x":{"filter":"none","vertical":false,"data":[["Action","Adventure","Cyberpunk","Drama","Sci-Fi"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Genre<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"columnDefs":[{"name":"Genre","targets":0}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="explanation-2nd-concept" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-2nd-concept"><strong>Explanation 2nd concept</strong></h3>
+<p>This query uses `SELECT DISTINCT` to return unique production genres, eliminating duplicate values. The `ORDER BY` clause sorts the results alphabetically, improving readability and supporting categorical analysis.</p>
+</section>
+</section>
+<section id="rd-concept" class="level2">
+<h2 class="anchored" data-anchor-id="rd-concept">3rd concept</h2>
+<p>Subquery with <code>SELECT</code></p>
+<section id="example-scenario-2" class="level3">
+<h3 class="anchored" data-anchor-id="example-scenario-2">Example scenario</h3>
+<p>List productions whose budget is above the <strong>average budget</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>query_subquery <span class="ot">&lt;-</span> <span class="st">"</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="st">  Title,</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="st">  Budget</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM Productions</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE Budget &gt; (</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT AVG(Budget)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM Productions</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY Budget DESC</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>above_avg_budget_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, query_subquery)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="do">### Display Table</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  above_avg_budget_df,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">10</span>,</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">rownames =</span> <span class="cn">FALSE</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-d85114a0fb365cc67e36" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d85114a0fb365cc67e36">{"x":{"filter":"none","vertical":false,"data":[["Gravity Dreams","Starborn Legacy","Quantum Drift"],[600000,500000,450000]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Title<\/th>\n      <th>Budget<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":1},{"name":"Title","targets":0},{"name":"Budget","targets":1}],"order":[],"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="explanation-3rd-concept" class="level3">
+<h3 class="anchored" data-anchor-id="explanation-3rd-concept"><strong>Explanation 3rd concept</strong></h3>
+<p>This query demonstrates the use of a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

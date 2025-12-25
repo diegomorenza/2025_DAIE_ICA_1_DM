@@ -30,7 +30,7 @@ dbListTables(con)
 
 # SQL Queries
 
-## 1st query
+## 1st core query
 
 List the total budget allocated for productions in each country along with the count of projects per country sorted by total budget (descending)
 
@@ -65,7 +65,7 @@ datatable(
 
 This query joins the `Productions` and `Clients` tables to aggregate production budgets by country. The total budget and number of productions are calculated using `SUM` and `COUNT`, and the results are sorted in descending order of total budget to highlight countries with the highest investment in virtual production.
 
-## 2nd query
+## 2nd core query
 
 Next is the query that lists the average development time for productions, categorized by the number of assets
 
@@ -109,7 +109,7 @@ datatable(
 
 This query calculates the development duration for each production by subtracting the start date from the end date using SQLite’s `JULIANDAY` function. A subquery is used to count the number of assets associated with each production. The outer query then groups productions by asset count and computes the average development time, highlighting how asset volume relates to production duration.
 
-## 3rd query
+## 3rd core query
 
 Final 3rd query lists the top three crew members based on the number of successful productions they’ve been involved in.
 
@@ -147,3 +147,116 @@ datatable(
 ### **Explanation 3rd query**
 
 This query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of Post-production or Completed. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors.
+
+# SQL Concepts
+
+## 1st concept
+
+Filter using `LIKE` combine conditions with `OR`
+
+### Example scenario
+
+List crew members whose role contains *Unreal* **or** *Camera*
+
+```{r}
+query_like_or <- "
+SELECT
+  Name,
+  Role,
+  ExperienceYears
+FROM CrewMembers
+WHERE Role LIKE '%Unreal%'
+   OR Role LIKE '%Camera%'
+"
+
+like_or_df <- dbGetQuery(con, query_like_or)
+
+### Display the Table
+
+datatable(
+  like_or_df,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE
+  ),
+  rownames = FALSE
+)
+```
+
+### **Explanation 1st concept**
+
+This query demonstrates the use of the `LIKE` operator combined with the `OR` condition to filter textual data. Crew members are selected if their role contains either the term *Unreal* or *Camera*, allowing flexible pattern matching across multiple criteria.
+
+## 2nd concept
+
+Filter using `SELECT DISTINCT` with `ORDER BY`
+
+### Example scenario
+
+List distinct production genres in alphabetical order
+
+```{r}
+query_distinct_order <- "
+SELECT DISTINCT
+  Genre
+FROM Productions
+ORDER BY Genre ASC
+"
+
+distinct_genres_df <- dbGetQuery(con, query_distinct_order)
+
+### Display Table
+
+datatable(
+  distinct_genres_df,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE
+  ),
+  rownames = FALSE
+)
+```
+
+### **Explanation 2nd concept**
+
+This query uses \`SELECT DISTINCT\` to return unique production genres, eliminating duplicate values. The \`ORDER BY\` clause sorts the results alphabetically, improving readability and supporting categorical analysis.
+
+## 3rd concept
+
+Subquery with `SELECT`
+
+### Example scenario
+
+List productions whose budget is above the **average budget**
+
+```{r}
+query_subquery <- "
+SELECT
+  Title,
+  Budget
+FROM Productions
+WHERE Budget > (
+  SELECT AVG(Budget)
+  FROM Productions
+)
+ORDER BY Budget DESC
+"
+
+above_avg_budget_df <- dbGetQuery(con, query_subquery)
+
+
+### Display Table
+
+datatable(
+  above_avg_budget_df,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE
+  ),
+  rownames = FALSE
+)
+```
+
+### **Explanation 3rd concept**
+
+This query demonstrates the use of a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL.

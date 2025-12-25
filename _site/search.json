@@ -61,5 +61,47 @@
     "title": "Part A – SQL Analysis",
     "section": "Explanation 3rd query",
     "text": "Explanation 3rd query\nThis query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of *Post-production* or *Completed*. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors."
+  },
+  {
+    "objectID": "part_a_sql.html#st-core-query",
+    "href": "part_a_sql.html#st-core-query",
+    "title": "Part A – SQL Analysis",
+    "section": "1st core query",
+    "text": "1st core query\nList the total budget allocated for productions in each country along with the count of projects per country sorted by total budget (descending)\n\nquery_budget_country &lt;- \"\nSELECT \n  c.Country AS Country,\n  COUNT(p.ProductionID) AS Number_of_Productions,\n  SUM(p.Budget) AS Total_Budget\nFROM Productions p\nJOIN Clients c\n  ON p.ClientID = c.ClientID\nGROUP BY c.Country\nORDER BY Total_Budget DESC\n\"\n\nbudget_country_df &lt;- dbGetQuery(con, query_budget_country)\n\n## Display Results as a Paginated Table\n\ndatatable(\n  budget_country_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\nExplanation 1st query\nThis query joins the Productions and Clients tables to aggregate production budgets by country. The total budget and number of productions are calculated using SUM and COUNT, and the results are sorted in descending order of total budget to highlight countries with the highest investment in virtual production."
+  },
+  {
+    "objectID": "part_a_sql.html#nd-core-query",
+    "href": "part_a_sql.html#nd-core-query",
+    "title": "Part A – SQL Analysis",
+    "section": "2nd core query",
+    "text": "2nd core query\nNext is the query that lists the average development time for productions, categorized by the number of assets\n\nquery_avg_dev_time &lt;- \"\nSELECT\n  AssetCount,\n  AVG(DevelopmentDays) AS Avg_Development_Days\nFROM (\n  SELECT\n    p.ProductionID,\n    JULIANDAY(p.EndDate) - JULIANDAY(p.StartDate) AS DevelopmentDays,\n    COUNT(a.AssetID) AS AssetCount\n  FROM Productions p\n  LEFT JOIN Environments e\n    ON p.ProductionID = e.ProductionID\n  LEFT JOIN Assets a\n    ON e.EnvironmentID = a.EnvironmentID\n  GROUP BY p.ProductionID\n)\nGROUP BY AssetCount\nORDER BY AssetCount\n\"\n\navg_dev_time_df &lt;- dbGetQuery(con, query_avg_dev_time)\n\n## Display as a Paginated Table\n\n\ndatatable(\n  avg_dev_time_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\nExplanation 2nd query\nThis query calculates the development duration for each production by subtracting the start date from the end date using SQLite’s JULIANDAY function. A subquery is used to count the number of assets associated with each production. The outer query then groups productions by asset count and computes the average development time, highlighting how asset volume relates to production duration."
+  },
+  {
+    "objectID": "part_a_sql.html#rd-core-query",
+    "href": "part_a_sql.html#rd-core-query",
+    "title": "Part A – SQL Analysis",
+    "section": "3rd core query",
+    "text": "3rd core query\nFinal 3rd query lists the top three crew members based on the number of successful productions they’ve been involved in.\n\nquery_top_crew &lt;- \"\nSELECT\n  cm.Name AS Crew_Member,\n  COUNT(p.ProductionID) AS Successful_Productions\nFROM CrewMembers cm\nJOIN ProductionCrew pc\n  ON cm.CrewID = pc.CrewID\nJOIN Productions p\n  ON pc.ProductionID = p.ProductionID\nWHERE p.Status IN ('Post-production', 'Completed')\nGROUP BY cm.CrewID, cm.Name\nORDER BY Successful_Productions DESC\nLIMIT 3\n\"\n\ntop_crew_df &lt;- dbGetQuery(con, query_top_crew)\n\n## Display the Results\n\ndatatable(\n  top_crew_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\nExplanation 3rd query\nThis query identifies the top three crew members based on their involvement in successful productions. Success is defined as productions with a status of Post-production or Completed. The query joins crew members to productions via the production–crew linking table, aggregates the number of successful productions per crew member, and orders the results in descending order to highlight the most experienced contributors."
+  },
+  {
+    "objectID": "part_a_sql.html#st-concept",
+    "href": "part_a_sql.html#st-concept",
+    "title": "Part A – SQL Analysis",
+    "section": "1st concept",
+    "text": "1st concept\nFilter using LIKE combine conditions with OR\n\nExample scenario\nList crew members whose role contains Unreal or Camera\n\nquery_like_or &lt;- \"\nSELECT\n  Name,\n  Role,\n  ExperienceYears\nFROM CrewMembers\nWHERE Role LIKE '%Unreal%'\n   OR Role LIKE '%Camera%'\n\"\n\nlike_or_df &lt;- dbGetQuery(con, query_like_or)\n\n### Display the Table\n\ndatatable(\n  like_or_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\n\nExplanation 1st concept\nThis query demonstrates the use of the LIKE operator combined with the OR condition to filter textual data. Crew members are selected if their role contains either the term Unreal or Camera, allowing flexible pattern matching across multiple criteria."
+  },
+  {
+    "objectID": "part_a_sql.html#nd-concept",
+    "href": "part_a_sql.html#nd-concept",
+    "title": "Part A – SQL Analysis",
+    "section": "2nd concept",
+    "text": "2nd concept\nFilter using SELECT DISTINCT with ORDER BY\n\nExample scenario\nList distinct production genres in alphabetical order\n\nquery_distinct_order &lt;- \"\nSELECT DISTINCT\n  Genre\nFROM Productions\nORDER BY Genre ASC\n\"\n\ndistinct_genres_df &lt;- dbGetQuery(con, query_distinct_order)\n\n### Display Table\n\ndatatable(\n  distinct_genres_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\n\nExplanation 2nd concept\nThis query uses `SELECT DISTINCT` to return unique production genres, eliminating duplicate values. The `ORDER BY` clause sorts the results alphabetically, improving readability and supporting categorical analysis."
+  },
+  {
+    "objectID": "part_a_sql.html#rd-concept",
+    "href": "part_a_sql.html#rd-concept",
+    "title": "Part A – SQL Analysis",
+    "section": "3rd concept",
+    "text": "3rd concept\nSubquery with SELECT\n\nExample scenario\nList productions whose budget is above the average budget\n\nquery_subquery &lt;- \"\nSELECT\n  Title,\n  Budget\nFROM Productions\nWHERE Budget &gt; (\n  SELECT AVG(Budget)\n  FROM Productions\n)\nORDER BY Budget DESC\n\"\n\nabove_avg_budget_df &lt;- dbGetQuery(con, query_subquery)\n\n\n### Display Table\n\ndatatable(\n  above_avg_budget_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\n\nExplanation 3rd concept\nThis query demonstrates the use of a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL."
   }
 ]

@@ -51,7 +51,7 @@ model <- lm(SuccessRate ~ Budget + CrewSize, data = regression_data)
 summary(model)
 ```
 
-# Interpret
+# Interpretation
 
 This section interprets the model coefficients and discuss what insights they provide about cinematic production.
 

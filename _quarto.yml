@@ -10,7 +10,7 @@ website:
       - text: Part A - SQL
         file: part_a_sql.qmd
       - text: Part B - SQL
-        file: part_b_sql.qmd
+        file: part_b_regression.qmd
       - text: Technology Exploration
         file: technology_exploration.qmd
       - text: Conclusion

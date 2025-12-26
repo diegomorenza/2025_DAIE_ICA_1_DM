@@ -1,0 +1,19 @@
+---
+title: "Technology Exploration"
+---
+
+# R Studio
+
+RStudio was used as the main development environment for this project. It provided an integrated interface to write R code, manage the Quarto website structure, connect to the SQLite database, and render the final outputs into HTML pages.
+
+# Version control
+
+Version control was managed using Git and GitHub.
+
+Git terminal within R studio was used to track changes to the project files over time, allowing work to be saved in small and meaningful commits. GitHub was used to host the project repositories online, making it easier to manage different parts of the assignment and ensuring that the development process followed best practices for software and data projects.
+
+# Libraries
+
+Additional R libraries were explored to improve data presentation and visualisation beyond basic outputs. The \`DT\` package was used to display SQL query results as interactive and paginated tables, which makes large datasets easier to read and navigate. For data visualisation, \`ggplot2\` was used to create clear and informative plots for the linear regression analysis.
+
+These tools helped communicate analytical results more effectively while keeping the workflow simple, structured, and easy to understand.

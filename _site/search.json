@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "2025 DAIE ICA 1",
+    "title": "DAIE ICA2 - SQL, Linear Regression & Quarto Dashboard using Shiny",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   },
   {
     "objectID": "about.html",
@@ -102,6 +102,20 @@
     "href": "part_a_sql.html#rd-concept",
     "title": "Part A – SQL Analysis",
     "section": "3rd concept",
-    "text": "3rd concept\nSubquery with SELECT\n\nExample scenario\nList productions whose budget is above the average budget\n\nquery_subquery &lt;- \"\nSELECT\n  Title,\n  Budget\nFROM Productions\nWHERE Budget &gt; (\n  SELECT AVG(Budget)\n  FROM Productions\n)\nORDER BY Budget DESC\n\"\n\nabove_avg_budget_df &lt;- dbGetQuery(con, query_subquery)\n\n\n### Display Table\n\ndatatable(\n  above_avg_budget_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\n\nExplanation 3rd concept\nThis query demonstrates the use of a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL."
+    "text": "3rd concept\nSubquery with SELECT\n\nExample scenario\nList productions whose budget is above the average budget\n\nquery_subquery &lt;- \"\nSELECT\n  Title,\n  Budget\nFROM Productions\nWHERE Budget &gt; (\n  SELECT AVG(Budget)\n  FROM Productions\n)\nORDER BY Budget DESC\n\"\n\nabove_avg_budget_df &lt;- dbGetQuery(con, query_subquery)\n\n\n### Display Table\n\ndatatable(\n  above_avg_budget_df,\n  options = list(\n    pageLength = 10,\n    autoWidth = TRUE\n  ),\n  rownames = FALSE\n)\n\n\n\n\n\n\n\nExplanation 3rd concept\nThis query uses a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL."
+  },
+  {
+    "objectID": "part_b_regression.html",
+    "href": "part_b_regression.html",
+    "title": "Part B – Linear Regression Analysis",
+    "section": "",
+    "text": "Introduction\nThis section applies linear regression analysis to examine how production budget and crew size influence the success rate of virtual productions. The aim is to identify trends, interpret model coefficients, and evaluate the reliability of the regression model.\n\nlibrary(DBI)\n\nWarning: package 'DBI' was built under R version 4.5.2\n\nlibrary(RSQLite)\n\nWarning: package 'RSQLite' was built under R version 4.5.2\n\nlibrary(ggplot2)\n\nWarning: package 'ggplot2' was built under R version 4.5.2\n\n## Connect to the SQLite database\ncon &lt;- DBI::dbConnect(\n  RSQLite::SQLite(),\n  \"virtual_production.db\"\n)\n\n## Check tables exist and we are connected to the DB\n\ndbListTables(con)\n\n [1] \"Assets\"           \"Clients\"          \"CrewMembers\"      \"Environments\"    \n [5] \"Equipment\"        \"ProductionCrew\"   \"Productions\"      \"SessionEquipment\"\n [9] \"ShootingSessions\" \"VCamTakes\"       \n\n\n\n\nModel\nThis section performs linear regression to predict the success rate of a production based on its budget and crew size and present the data in an appropriate plot\n\n## Build the Regression Dataset (SQL)\n\nquery_regression &lt;- \"\nSELECT\n  p.Budget,\n  COUNT(pc.CrewID) AS CrewSize,\n  CASE\n    WHEN p.Status IN ('Completed', 'Post-production') THEN 1\n    ELSE 0\n  END AS SuccessRate\nFROM Productions p\nLEFT JOIN ProductionCrew pc\n  ON p.ProductionID = pc.ProductionID\nGROUP BY p.ProductionID, p.Budget, p.Status\n\"\n\nregression_data &lt;- dbGetQuery(con, query_regression)\n\n## Perform the Linear Regression\n\nmodel &lt;- lm(SuccessRate ~ Budget + CrewSize, data = regression_data)\nsummary(model)\n\n\nCall:\nlm(formula = SuccessRate ~ Budget + CrewSize, data = regression_data)\n\nResiduals:\n      1       2       3       4       5       6 \n 0.3265 -0.3215  0.1465 -0.1555  0.1779 -0.1740 \n\nCoefficients:\n              Estimate Std. Error t value Pr(&gt;|t|)  \n(Intercept)  2.157e+00  5.783e-01   3.729   0.0336 *\nBudget      -4.994e-06  1.505e-06  -3.318   0.0451 *\nCrewSize     1.324e-01  9.820e-02   1.348   0.2703  \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.3254 on 3 degrees of freedom\nMultiple R-squared:  0.7883,    Adjusted R-squared:  0.6471 \nF-statistic: 5.585 on 2 and 3 DF,  p-value: 0.09742\n\n\n\n\nInterpret\nThis section interprets the model coefficients and discuss what insights they provide about cinematic production.\n\n## Plot the Data (Required Task #2)\n\nggplot(regression_data, aes(x = Budget, y = SuccessRate)) +\n  geom_point() +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(\n    title = \"Success Rate vs Production Budget\",\n    x = \"Budget\",\n    y = \"Success Rate\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n\n\nFinal comments\nThe regression model examines how production budget and crew size relate to the success rate of virtual productions. A positive budget suggests that higher-budget productions are more likely to be successful. The crew size coefficient in the same way indicates whether larger teams are associated with higher success rates.\nThe reliability of the model is limited by the definition of success rate. Also, productions with unusually high budgets may influence the regression results. So, the model provides general trends rather than precise predictions."
+  },
+  {
+    "objectID": "part_b_regression.html#comments",
+    "href": "part_b_regression.html#comments",
+    "title": "Part B – Linear Regression Analysis",
+    "section": "Comments",
+    "text": "Comments\nThe regression model examines how production budget and crew size relate to the success rate of virtual productions. A positive budget suggests that higher-budget productions are more likely to be successful. The crew size coefficient in the same way indicates whether larger teams are associated with higher success rates.\nThe reliability of the model is limited by the definition of success rate. Also, productions with unusually high budgets may influence the regression results. So, the model provides general trends rather than precise predictions."
   }
 ]

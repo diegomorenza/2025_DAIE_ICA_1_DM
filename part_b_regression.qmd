@@ -1,0 +1,75 @@
+---
+title: "Part B – Linear Regression Analysis"
+---
+
+# Introduction
+
+This section applies linear regression analysis to examine how production budget and crew size influence the success rate of virtual productions. The aim is to identify trends, interpret model coefficients, and evaluate the reliability of the regression model.
+
+```{r}
+library(DBI)
+library(RSQLite)
+library(ggplot2)
+
+## Connect to the SQLite database
+con <- DBI::dbConnect(
+  RSQLite::SQLite(),
+  "virtual_production.db"
+)
+
+## Check tables exist and we are connected to the DB
+
+dbListTables(con)
+```
+
+# Model
+
+This section performs linear regression to predict the success rate of a production based on its budget and crew size and present the data in an appropriate plot
+
+```{r}
+## Build the Regression Dataset (SQL)
+
+query_regression <- "
+SELECT
+  p.Budget,
+  COUNT(pc.CrewID) AS CrewSize,
+  CASE
+    WHEN p.Status IN ('Completed', 'Post-production') THEN 1
+    ELSE 0
+  END AS SuccessRate
+FROM Productions p
+LEFT JOIN ProductionCrew pc
+  ON p.ProductionID = pc.ProductionID
+GROUP BY p.ProductionID, p.Budget, p.Status
+"
+
+regression_data <- dbGetQuery(con, query_regression)
+
+## Perform the Linear Regression
+
+model <- lm(SuccessRate ~ Budget + CrewSize, data = regression_data)
+summary(model)
+```
+
+# Interpret
+
+This section interprets the model coefficients and discuss what insights they provide about cinematic production.
+
+```{r}
+## Plot the Data (Required Task #2)
+
+ggplot(regression_data, aes(x = Budget, y = SuccessRate)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Success Rate vs Production Budget",
+    x = "Budget",
+    y = "Success Rate"
+  )
+```
+
+# Final comments
+
+The regression model examines how production budget and crew size relate to the success rate of virtual productions. A positive budget suggests that higher-budget productions are more likely to be successful. The crew size coefficient in the same way indicates whether larger teams are associated with higher success rates.
+
+The reliability of the model is limited by the definition of success rate. Also, productions with unusually high budgets may influence the regression results. So, the model provides general trends rather than precise predictions.

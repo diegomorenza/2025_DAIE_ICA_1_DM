@@ -259,4 +259,4 @@ datatable(
 
 ### **Explanation 3rd concept**
 
-This query demonstrates the use of a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL.
+This query uses a subquery to calculate the average production budget. The outer query then filters productions whose budget exceeds this average, illustrating how subqueries can be used to perform comparative analysis within SQL.

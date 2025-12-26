@@ -9,6 +9,10 @@ website:
         file: index.qmd
       - text: Part A - SQL
         file: part_a_sql.qmd
+      - text: Part B - SQL
+        file: part_b_sql.qmd
+      - text: Technology Exploration
+        file: technology_exploration.qmd
       - text: Conclusion
         file: conclusion.qmd
       - about.qmd

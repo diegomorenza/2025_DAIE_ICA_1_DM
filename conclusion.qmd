@@ -1,3 +1,15 @@
 ---
-title: "conclusion"
+title: "Conclusion and Reflection"
 ---
+
+## Conclusion
+
+This project focused on using data analytics to better understand virtual and cinematic production data. SQL was used to extract useful information from an SQLite database, such as production budgets, timelines, and crew involvement. Linear regression was then applied to explore how factors like budget and crew size relate to production success.
+
+Quarto made it possible to present all results in a clear and structured website, combining code, outputs, and explanations in one place. Using tables and simple visualisations helped make the results easier to read and understand.
+
+## Reflection
+
+Since I already have experience using relational databases, analyzing the tables has not been a problem, but I have improved my skills in SQL and basic data analysis using R. It also gave me practical experience working with Quarto to organise and present analytical work in a clear way. Using Git and GitHub throughout the project helped me manage changes and keep my work structured, even though version control is not new either for me.
+
+Overall, the skills learned in this assignment are useful for game development projects, where analysing data and clearly presenting results can support better decision making.

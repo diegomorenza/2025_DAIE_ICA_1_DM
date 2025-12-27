@@ -2,9 +2,14 @@
 title: "DAIE ICA2 - SQL, Linear Regression & Quarto Dashboard using Shiny"
 ---
 
+Diego Morenza Vazquez 2025-12-10
+
+# Data Analytics for Immersive Environments 
+
+## Individual Project Interactive RDBMS data with Quarto & Shiny 
+
+This assignment is designed for a postgraduate program with a focus on Data Analytics for Game & Extended Reality and Computer Animation. It encompasses five distinct parts, each aimed at assessing and enhancing students’ proficiency in different aspects of data analytics as applied to game development and animation.
+
 This is a Quarto website.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```         
-```
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>
